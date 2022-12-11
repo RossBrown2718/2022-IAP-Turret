@@ -42,7 +42,7 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void execute() {
     if(teleOp) {
-      turret.spin(-0.5 * joy.getY()); //Spins to the y position that the joystick is at
+      turret.spin(joy.getY()); //Spins to the y position that the joystick is at
       //-0.5 restricts the movement to not move too fast
       SmartDashboard.putNumber("Joystick Power", joy.getY()); //Displays on SmartDashboard the y pos of the joystick
     }
@@ -58,6 +58,7 @@ public class TurnToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(teleOp) return false;
     return Math.abs(angle - turret.getAngle()) < Constants.TurretConstants.threshold;
     //If the angle of the turret is close enough to the desired angle, calls the method to end (stop moving)
   }

@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Turret extends SubsystemBase { //This is the class where the subsystem is run
   private final WPI_TalonSRX centerMotor; //Instantiates a new motor
   private final WPI_TalonSRX motor; //Instantiates a new motor
-  private Joystick joy = new Joystick(0); //Instantiates a new joystick
-  private Turret turret = new Turret(); //Instantiates a new turret
   /* Creates a new Turret. */
   public Turret() { //constrcutor header
     motor = new WPI_TalonSRX(Constants.TurretConstants.talonPort); 
@@ -43,7 +41,7 @@ public class Turret extends SubsystemBase { //This is the class where the subsys
   }
 
   public double getActualAngle(){ //Returns the angle the turret should be at in degrees
-    return centerMotor.getSelectedSensorPosition() * 360 / (4096.0);
+    return centerMotor.getSelectedSensorPosition() * 360 * 4 / (23 * 4096.0);
   }   
 
   public void spin(double speed){ //Makes the motor spin some speed from 0 to 1
@@ -59,6 +57,7 @@ public class Turret extends SubsystemBase { //This is the class where the subsys
     SmartDashboard.putNumber("Angle: ", getAngle());
     SmartDashboard.putNumber("Actual Angle: ", getActualAngle());
     SmartDashboard.putNumber("Angle Slipped: ", findSlippageAngle());
+    motor.set(ControlMode.PercentOutput, -0.5*RobotContainer.getJoy().getY());
     //SmartDashboard.putNumber("Joystick Power: ", RobotContainer.getJoy().getY());
   }
 }
